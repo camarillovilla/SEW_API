@@ -1,0 +1,18 @@
+// Sistema de migraciones
+// las migraciones mantienen el historial del esquema que se lleva en la base de datos. Es un sistema muy usado en ambientes de producción para trackear los cambios sin tener que replicar todo nuevamente (creación de tablas, llaves foráneas, etc). Es decir, permite saber en qué punto estaba para saber qué es lo que se tiene que modificar.
+
+
+// config → Dónde se encuentra la configuración, esta configuración se encuentra la conexión hacia la BD. El cli tiene su propia conexión, independientemente de la conexión de la aplicación porque esas conexiones corren a nivel de terminal.
+
+// models-paths → Dónde se encuentran los modelos.
+
+// migrations-paths → Dónde se encuentran las migraciones.
+
+// seeders-path → Dónde se encuentran las semillas de información, sirve mucho para pruebas unitarias, end to end, donde se necesitan semillas de información que es como cargar varios datos de información a la BD.
+
+module.exports = {
+  'config': './db/config.js',
+  'models-path': './db/models/',
+  'migrations-path': './db/migrations/',
+  'seeders-path': './db/seeders/',
+}
