@@ -20,6 +20,8 @@ class AuthService {
       throw (boom.unauthorized(), false);
     }
 
+    // delete user.dataValues.password;
+
     return user;
   }
 
@@ -30,7 +32,7 @@ class AuthService {
     };
     const token = jwt.sign(payload, config.jwtSecret);
     return {
-      user,
+      // user,
       token,
     };
   }

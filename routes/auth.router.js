@@ -7,8 +7,8 @@ const service = new AuthService();
 const router = express.Router();
 
 router.post('/login',
-  validatorHandler(loginSchema, 'body'),
-  passport.authenticate('local', { session: false}),
+  // validatorHandler(loginSchema, 'body'),
+  passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     try {
       const user = req.user;

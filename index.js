@@ -12,18 +12,19 @@ const port = 3000;
 app.use(express.json());
 
 // CORS
-const whitelist = ['http//localhost:8080', 'https//myapp.com'];
-const options = {
-  origin: (origin, callback) => {
-    if (whitelist.includes()) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed'));
-    }
-  }
-}
+// const whitelist = ['http//localhost:8080'];
+// const options = {
+//   origin: (origin, callback) => {
+//     if (whitelist.includes()) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed'));
+//     }
+//   }
+// }
 
 // app.use(cors(options));
+app.use(cors());
 
 require('./utils/auth');
 routerApi(app);

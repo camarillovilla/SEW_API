@@ -39,6 +39,10 @@ class UsersService {
       where: { email }
     });
 
+    if (!user) {
+      throw boom.unauthorized();
+    }
+
     delete user.dataValues.email;
     // delete user.dataValues.password;
     delete user.dataValues.recoveryToken;
