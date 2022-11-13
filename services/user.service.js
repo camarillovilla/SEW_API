@@ -43,7 +43,8 @@ class UsersService {
       throw boom.unauthorized();
     }
 
-    delete user.dataValues.email;
+    // delete user.dataValues.id;
+    // delete user.dataValues.email;
     // delete user.dataValues.password;
     delete user.dataValues.recoveryToken;
     delete user.dataValues.rfc;

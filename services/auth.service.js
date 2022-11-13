@@ -64,8 +64,11 @@ class AuthService {
     const token = jwt.sign(payload, config.jwtRecoveySecret, { expiresIn: '15min' });
     const link = `http://localhost:3000/recovery?token=${token}`;
 
-    await  service.update(user.id, { recoveryToken: token });
+    const emailUser = JSON.parse(JSON.stringify(user));
 
+    console.log(emailUser);
+
+    await  service.update(user.id, { recoveryToken: token });
     const mail = {
       from: config.emailSender,
       to: `${user.email}`,
@@ -110,6 +113,17 @@ class AuthService {
     await transporter.sendMail(emailInformation);
 
     return { message: 'Email sent' };
+  }
+
+  async verifyToken(token) {
+    try {
+      const payload = jwt.verify(token, config.jwtSecret);
+      const user = await service.getOne(payload.sub);
+
+      return user;
+    } catch (error) {
+      return false;
+    }
   }
 }
 

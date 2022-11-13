@@ -31,5 +31,13 @@ function checkRoles(...roles) {
   }
 }
 
+function checkAuthenticaded(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    next(boom.unauthorized());
+  }
+}
 
-module.exports = { checkApiKey, checkEmployeeRole, checkRoles };
+
+module.exports = { checkApiKey, checkEmployeeRole, checkRoles, checkAuthenticaded };
