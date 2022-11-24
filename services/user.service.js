@@ -23,7 +23,18 @@ class UsersService {
   }
 
   async getOne(id) {
-    const user = await models.User.findByPk(id);
+    const user = await models.User.findByPk(id, {
+      include: [{
+        model: models.Employee,
+        as: 'employee',
+        attributes: ['id', 'fullName', 'phone'],
+        include: [{
+          model: models.CV,
+          as: 'cv',
+          include: ['lenguages', 'workExperiences', 'academicTrainings', 'certifications', 'skills']
+        }]
+      }], attributes: ['id', 'rfc','email', 'role']
+    });
 
     if (!user) {
       throw boom.notFound('User not found!');

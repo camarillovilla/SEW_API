@@ -46,6 +46,10 @@ const UserSchema = {
 
 class User extends Model {
   static associate(models) {
+    this.hasOne(models.Employee, {
+      as: 'employee',
+      foreignKey: 'userId'
+    });
     this.hasMany(models.RecruiterFollower, {
       as: 'following',
       foreignKey: 'userId'

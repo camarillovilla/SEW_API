@@ -19,7 +19,7 @@ function routerApi(app) {
 
   router.use('/auth', authRouter);
   router.use('/profile', passport.authenticate('jwt', { session: false }), checkRoles('Employee'), profileRouter);
-  router.use('/recruiters', passport.authenticate('jwt', { session: false }), checkRoles('Employee', 'Recruiter'), recruitersRouter);
+  router.use('/recruiters', recruitersRouter);
   router.use('/employees', employeesRouter);
   router.use('/cvs', passport.authenticate('jwt', { session: false }), checkRoles('Employee'), cvsRouter);
   router.use('/cv-lenguages', passport.authenticate('jwt', { session: false }), checkRoles('Employee'), cvLenguges);

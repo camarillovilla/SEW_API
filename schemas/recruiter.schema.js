@@ -18,7 +18,7 @@ const offset = Joi.number().integer();
 const createRecruiterSchema = Joi.object({
   fullName: fullName.required(),
   phone: phone.required(),
-  charge: charge.required(),
+  // charge: charge.required(),
   user: Joi.object({
     rfc: rfc.required(),
     role: role.required(),

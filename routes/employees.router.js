@@ -1,6 +1,8 @@
 const express = require('express');
 const EmployeeService = require('../services/employee.service');
 const validatorHandler = require('../middlewares/validator.handler');
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 const { createEmployeeSchema, updateEmployeeSchema, getEmployeeSchema } = require('../schemas/employee.schema');
 
 const router = express.Router();
@@ -19,16 +21,22 @@ router.post('/',
   }
 );
 
-router.get('/', async (req, res, next) => {
-  try {
-    const employees = await service.getAll();
-    res.json(employees);
-  } catch (error) {
-    next(error);
+router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('Employee', 'Recruiter'),
+  async (req, res, next) => {
+    try {
+      const employees = await service.getAll();
+      res.status(200).json(employees)
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get('/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('Employee', 'Recruiter'),
   validatorHandler(getEmployeeSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -42,6 +50,8 @@ router.get('/:id',
 );
 
 router.patch('/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('Employee', 'Recruiter'),
   validatorHandler(getEmployeeSchema, 'params'),
   validatorHandler(updateEmployeeSchema, 'body'),
   async (req, res, next) => {
@@ -56,6 +66,8 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('Employee', 'Recruiter'),
   validatorHandler(getEmployeeSchema, 'params'),
   async (req, res, next) => {
     try {

@@ -21,7 +21,7 @@ const RecruiterSchema = {
     type: DataTypes.STRING,
   },
   charge: {
-    allowNull: false,
+    allowNull: true,
     type: DataTypes.STRING
   },
   createAt: {
