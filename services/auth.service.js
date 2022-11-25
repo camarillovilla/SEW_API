@@ -28,9 +28,13 @@ class AuthService {
       sub: user.id,
       role: user.role,
     };
+
     const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '15min' });
+    const role = user.role;
+
     return {
       token,
+      role
     };
   }
 
