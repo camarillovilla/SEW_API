@@ -29,7 +29,7 @@ class CVService {
       include: ['skills', 'workExperiences', 'academicTrainings', 'certifications', 'lenguages'],
     });
 
-    return (this.convertToJSON(newCV));
+    return (newCV);
   }
 
   async getAll() {

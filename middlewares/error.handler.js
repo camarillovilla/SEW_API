@@ -7,14 +7,12 @@ const { ValidationError } = require("sequelize");
 // Las funciones middleware suelen ser utilizadas como mecanismo para verificar niveles de acceso antes de entrar en una ruta, manejo de errores, validación de datos, etc.
 
 function logErrors(err, req, res, next) {
-  console.log("logErrors");
   console.error(err);
   // Middleware de tipo error
   next(err);
 }
 
 function errorHandler(err, req, res, next) {
-  console.log("errorHandler");
   res.status(500).json({
     message: err.message,
     stack: err.stack

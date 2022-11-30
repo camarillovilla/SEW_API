@@ -18,7 +18,7 @@ function routerApi(app) {
   app.use('/api/v1', router);
 
   router.use('/auth', authRouter);
-  router.use('/profile', passport.authenticate('jwt', { session: false }), checkRoles('Employee'), profileRouter);
+  router.use('/profile', passport.authenticate('jwt', { session: false }), profileRouter);
   router.use('/recruiters', recruitersRouter);
   router.use('/employees', employeesRouter);
   router.use('/cvs', passport.authenticate('jwt', { session: false }), checkRoles('Employee'), cvsRouter);

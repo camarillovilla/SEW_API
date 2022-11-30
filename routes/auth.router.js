@@ -31,7 +31,8 @@ router.get('/google/callback',
         httpOnly: false,
         secure: false
       });
-      res.status(200).redirect('http://localhost:8080/about');
+
+      res.status(200).redirect('http://localhost:8080/profile');
 
       // if (provider === 'Google') {
       //   const accessToken = service.signToken(user);
@@ -40,7 +41,7 @@ router.get('/google/callback',
       //     httpOnly: true,
       //     secure: false
       //   });
-      //   res.status(200).redirect('http://localhost:8080/about');
+      //   res.status(200).redirect('http://localhost:8080/profile');
       // }
       // else {
       //   res.status(403).redirect('http://localhost:8080/login');

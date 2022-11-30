@@ -50,6 +50,10 @@ class User extends Model {
       as: 'employee',
       foreignKey: 'userId'
     });
+    this.hasOne(models.Recruiter, {
+      as: 'recruiter',
+      foreignKey: 'userId'
+    })
     this.hasMany(models.RecruiterFollower, {
       as: 'following',
       foreignKey: 'userId'

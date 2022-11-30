@@ -22,19 +22,39 @@ class UsersService {
     return users;
   }
 
-  async getOne(id) {
-    const user = await models.User.findByPk(id, {
-      include: [{
-        model: models.Employee,
-        as: 'employee',
-        attributes: ['id', 'fullName', 'phone'],
+  async getOne(id, role) {
+    let user = undefined;
+
+    if (role === 'Employee') {
+      user = await models.User.findByPk(id, {
         include: [{
-          model: models.CV,
-          as: 'cv',
-          include: ['lenguages', 'workExperiences', 'academicTrainings', 'certifications', 'skills']
-        }]
-      }], attributes: ['id', 'rfc','email', 'role']
-    });
+          model: models.Employee,
+          as: 'employee',
+          attributes: ['id', 'fullName', 'phone'],
+          include: [{
+            model: models.CV,
+            as: 'cv',
+            include: ['lenguages', 'workExperiences', 'academicTrainings', 'certifications', 'skills']
+          }]
+        }], attributes: ['id', 'rfc','email', 'role']
+      });
+    } else {
+      user = await models.User.findByPk(id, {
+        include: [{
+          model: models.Recruiter,
+          as: 'recruiter',
+          attributes: ['id', 'fullName', 'phone', 'charge'],
+          include: [{
+            model: models.RecruiterFollower,
+            as: 'followers',
+          },
+          {
+            model: models.Group,
+            as: 'groups',
+          }
+        ]}]
+      });
+    }
 
     if (!user) {
       throw boom.notFound('User not found!');
@@ -54,9 +74,6 @@ class UsersService {
       throw boom.unauthorized();
     }
 
-    // delete user.dataValues.id;
-    // delete user.dataValues.email;
-    // delete user.dataValues.password;
     delete user.dataValues.recoveryToken;
     delete user.dataValues.rfc;
     delete user.dataValues.createAt;

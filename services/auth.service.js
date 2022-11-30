@@ -67,7 +67,6 @@ class AuthService {
 
     const emailUser = JSON.parse(JSON.stringify(user));
 
-    console.log(emailUser);
 
     await  service.update(user.id, { recoveryToken: token });
     const mail = {
