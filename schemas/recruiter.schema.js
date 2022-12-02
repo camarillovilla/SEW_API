@@ -8,7 +8,7 @@ const email = Joi.string().email();
 const fullName = Joi.string().min(5).max(50);
 const password = Joi.string().regex(RegExp(passwordPattern));
 const phone = Joi.number().integer().positive().max(9999999999);
-const charge = Joi.string();
+const charge = Joi.string().empty('');
 const rfc = Joi.string().regex(RegExp(rfcPatern));
 const role = Joi.string().valid('Recruiter');
 const provider = Joi.string().valid('Local');
@@ -32,7 +32,9 @@ const createRecruiterSchema = Joi.object({
 const updateRecruiterSchema = Joi.object({
   fullName: fullName,
   phone: phone,
-  charge: charge
+  charge: charge,
+  rfc: rfc,
+  email: email,
 });
 
 const getRecruiterSchema = Joi.object({

@@ -29,7 +29,9 @@ const createEmployeeSchema = Joi.object({
 
 const updateEmployeeSchema = Joi.object({
   fullName: fullName,
-  phone: phone
+  phone: phone,
+  rfc: rfc,
+  email: email,
 });
 
 const getEmployeeSchema = Joi.object({

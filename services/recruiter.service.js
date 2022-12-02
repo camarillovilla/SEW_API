@@ -1,7 +1,8 @@
 const boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
-
 const { models } = require('../libs/sequelize');
+const UserService = require('./user.service');
+const serviceUser = new UserService();
 
 class RecruiterService {
   constructor() {}
@@ -44,11 +45,30 @@ class RecruiterService {
     return recruiter;
   }
 
-  async update(id, changes) {
+  async update(userId, id, changes) {
+    const user = await models.User.findByPk(userId);
     const recruiter = await this.getOne(id);
-    const updatedRecruiter = await recruiter.update(changes);
+    let changesUser = {};
 
-    return updatedRecruiter;
+    if (recruiter.user.id === user.id) {
+      if (changes.email) {
+        changesUser.email = changes.email;
+      }
+
+      if (changes.rfc) {
+        changesUser.rfc = changes.rfc;
+      }
+
+      if (changesUser) {
+        await serviceUser.update(user.id, changesUser);
+      }
+
+      const updatedRecruiter = await recruiter.update(changes);
+
+      return updatedRecruiter;
+    } else {
+      throw boom.unauthorized();
+    }
   }
 
   async delete(id) {

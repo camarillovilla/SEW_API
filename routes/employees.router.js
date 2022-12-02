@@ -56,9 +56,10 @@ router.patch('/:id',
   validatorHandler(updateEmployeeSchema, 'body'),
   async (req, res, next) => {
     try {
+      const userId = req.user.sub;
       const { id } = req.params;
       const body = req.body;
-      res.status(200).json(await service.update(id, body));
+      res.status(200).json(await service.update(userId, id, body));
     } catch (error) {
       next(error);
     }
