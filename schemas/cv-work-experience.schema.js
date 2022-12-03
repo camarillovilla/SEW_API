@@ -8,13 +8,17 @@ const createCVWorkExperience = Joi.object({
   workExperience: workExperience.required()
 });
 
-const updatedCVWorkExperience = Joi.object({
-  workExperience
+// const updatedCVWorkExperience = Joi.object({
+//   workExperience: workExperience
+// });
+
+const updateCVWorkExperience = Joi.object({
+  workExperience: workExperience
 });
 
 const getCVWorkExperience = Joi.object({
   id: id.required()
 });
 
-module.exports = { createCVWorkExperience, updatedCVWorkExperience, getCVWorkExperience };
+module.exports = { createCVWorkExperience, updateCVWorkExperience, getCVWorkExperience };
 

@@ -20,8 +20,8 @@ router.post('/',
 );
 
 router.patch('/:id',
-  validatorHandler(getCVWorkExperience, 'params'),
   validatorHandler(updateCVWorkExperience, 'body'),
+  validatorHandler(getCVWorkExperience, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
