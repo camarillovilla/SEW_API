@@ -63,8 +63,7 @@ class AuthService {
 
     const payload = { sub: user.id };
     const token = jwt.sign(payload, config.jwtRecoveySecret, { expiresIn: '15min' });
-    const link = `http://localhost:8080/change-password/?token=${token}`;
-    // const emailUser = JSON.parse(JSON.stringify(user));
+    const link = `http://localhost:8080/change-password/${token}`;
 
     await  service.update(user.id, { recoveryToken: token });
     const mail = {
