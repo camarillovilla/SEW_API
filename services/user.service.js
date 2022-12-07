@@ -37,7 +37,7 @@ class UsersService {
     });
 
     if (!user) {
-      throw boom.notFound('User not found!');
+      throw boom.notFound('User not found!');      
     }
 
     delete user.dataValues.password;
