@@ -11,6 +11,7 @@ const cvWorkExperiences = require('./cv-work-experiences.router');
 const cvAcademicTrainings = require('./cv-academic-trainings.router');
 const cvCertifications = require('./cv-certifications.router');
 const recruiterOffers = require('./offer.router');
+const followers = require('./follower.router');
 const { checkRoles } = require('../middlewares/auth.handler');
 
 function routerApi(app) {
@@ -29,6 +30,7 @@ function routerApi(app) {
   router.use('/cv-academic-trainings', passport.authenticate('jwt', { session: false }), checkRoles('Employee'), cvAcademicTrainings);
   router.use('/cv-certifications', passport.authenticate('jwt', { session: false }), checkRoles('Employee'), cvCertifications);
   router.use('/recruiter-offers', recruiterOffers);
+  router.use('/followers', followers);
 }
 
 module.exports = routerApi;

@@ -1,7 +1,5 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
-// const EmployeeService = require('../services/employee.service');
-// const employeeService = new EmployeeService();
 
 class OfferService {
   constructor() { }
@@ -10,8 +8,32 @@ class OfferService {
     const offers = await models.Offer.findAll({
       where: { recruiterId },        
     });
-    // const offers = await models.Offer.findAll();
+    
+    return offers;
+  }
 
+  async getAllOffers() {
+    const offers = await models.Offer.findAll({
+      include: ['recruiter'] 
+    });
+
+    return offers;
+  }
+
+  async getNumberOfRecruiterOffers(recruiterId) {
+    const offers = await models.Offer.findAll({
+      where: { recruiterId },        
+    });
+        
+    return offers.length;
+  }
+
+  async getOffersByCategory(category) {
+    const offers = await models.Offer.findAll({
+      where: { category },        
+      include: ['recruiter'] 
+    });
+    
     return offers;
   }
 
