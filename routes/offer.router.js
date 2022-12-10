@@ -3,7 +3,7 @@ const OfferService = require('../services/offer.service')
 const validatorHandler = require('../middlewares/validator.handler');
 // const { checkRoles } = require('../middlewares/auth.handler');
 //const { createCVSchema, updateCVSchema, getCVSchema } = require('../schemas/cv.schema');
-const { getOfferSchema, getOffersByCategorySchema } = require('../schemas/offer.schema');
+const { getOfferSchema, getOffersByCategorySchema, getOneOfferSchema, updateOfferSchema} = require('../schemas/offer.schema');
 const router = express.Router();
 const service = new OfferService();
 
@@ -46,11 +46,36 @@ router.post('/offersCategory',
   }
 );
 
+router.post('/oneOffer',
+  validatorHandler(getOneOfferSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.body;
+      const offer = await service.getOneOffer(id);
+      res.status(200).json(offer);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.get('/',
   async (req, res, next) => {
     try {
       const offers = await service.getAllOffers();
       res.status(200).json(offers);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.patch('/',   
+  validatorHandler(updateOfferSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id, changes } = req.body;      
+      res.json(await service.updateOffer(id, changes));
     } catch (error) {
       next(error);
     }

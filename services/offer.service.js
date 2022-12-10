@@ -4,6 +4,19 @@ const { models } = require('../libs/sequelize');
 class OfferService {
   constructor() { }
 
+  async getOneOffer(id){
+
+    const offer = await models.Offer.findOne({
+      where: { id },      
+    });
+
+    if (!offer) {
+      throw boom.notFound('Offer not found!');
+    }
+
+    return offer;
+  }
+
   async getRecruterOffers(recruiterId) {
     const offers = await models.Offer.findAll({
       where: { recruiterId },        
@@ -35,6 +48,13 @@ class OfferService {
     });
     
     return offers;
+  }
+
+  async updateOffer(id, changes) {
+    const offer = await this.getOneOffer(id);
+    const updatedOffer = await offer.update(changes);
+
+    return updatedOffer;
   }
 
   async create(data) {
