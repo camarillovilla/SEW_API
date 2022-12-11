@@ -13,10 +13,6 @@ class JobApplicationService {
       },      
     });
 
-    if (!jobApplication) {
-      throw boom.notFound('Job Application not found!');
-    }
-
     return jobApplication;
   }
 
@@ -58,6 +54,11 @@ class JobApplicationService {
 
     return (newJobApplication);
   }  
+
+  async deleteJobApplication(employeeId, offerId){
+    const jobApplication = await this.getOneJobApplication(employeeId, offerId);       
+    await jobApplication.destroy();         
+  }
 
 }
 

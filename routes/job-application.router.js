@@ -59,5 +59,18 @@ router.post('/createJobApplication',
   }
 );
 
+router.delete('/deleteJobApplication',
+  validatorHandler(getOneJobApplicationSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { employeeId, offerId } = req.body;         
+      await service.deleteJobApplication(employeeId, offerId);
+      res.status(204).json();
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 
 module.exports = router;
