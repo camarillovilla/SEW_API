@@ -57,6 +57,15 @@ class OfferService {
     return updatedOffer;
   }
 
+  async createJobApplication(data) {
+   
+    
+
+
+  }
+
+
+
   async create(data) {
     const employee = await employeeService.getOne(data.employeeId);
 

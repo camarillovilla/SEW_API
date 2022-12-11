@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const recruiterId = Joi.number().integer().positive();
+const recruiterId = Joi.number().integer();
 const category = Joi.string().max(255);
 const id = Joi.number().integer();
 const title = Joi.string().max(255);
