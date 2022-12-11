@@ -9,7 +9,7 @@ const GoogleStrategy = new Strategy({
   callbackURL: "http://localhost:3000/api/v1/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-      const user = await service.getOrCreateUserByGoogle(profile);
+      const user = await service.getUserByGoogle(profile);
 
       return done(null, user);
     } catch (error) {

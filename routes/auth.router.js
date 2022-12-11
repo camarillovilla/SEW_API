@@ -24,7 +24,11 @@ router.get('/google/callback',
   async (req, res, next) => {
     try {
       const user = req.user;
-      // const provider = user.provider;
+
+      if (!user) {
+        res.status(200).redirect('http://localhost:8080/login');
+      }
+
       const accessToken = service.signToken(user).token;
 
       res.cookie('access_token', accessToken, {
@@ -33,19 +37,6 @@ router.get('/google/callback',
       });
 
       res.status(200).redirect('http://localhost:8080/profile');
-
-      // if (provider === 'Google') {
-      //   const accessToken = service.signToken(user);
-
-      //   res.cookie('access_token', accessToken, {
-      //     httpOnly: true,
-      //     secure: false
-      //   });
-      //   res.status(200).redirect('http://localhost:8080/profile');
-      // }
-      // else {
-      //   res.status(403).redirect('http://localhost:8080/login');
-      // }
     } catch (error) {
       next(error);
     }

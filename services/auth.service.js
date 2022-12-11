@@ -1,6 +1,7 @@
 const bycrypt = require('bcrypt');
 const boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
+const { models } = require('./../libs/sequelize');
 const nodemailer = require('nodemailer');
 const { config } = require('./../config/config');
 const UserService = require('./user.service');
@@ -38,17 +39,13 @@ class AuthService {
     };
   }
 
-  async getOrCreateUserByGoogle(profile) {
-    const user = await service.getByEmail(profile.emails[0].value);
+  async getUserByGoogle(profile) {
+    const email = profile.emails[0].value;
+    const users = await models.User.findAll();
+    let user = users.find(user => user.email === email);
 
     if (!user) {
-      const newUser = {
-        email: profile.emails[0].value,
-        provider: 'Google'
-      };
-      const createdUser = await service.createByGoogle(newUser);
-
-      return createdUser;
+      user = 'No existe el usuario';
     }
 
     return user;

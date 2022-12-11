@@ -76,6 +76,22 @@ class RecruiterService {
     const user = await models.User.findByPk(recruiter.user.id);
     await user.destroy();
   }
+
+  async createFollower(data) {
+    const follower = await models.RecruiterFollower.create(data);
+
+    return follower;
+  }
+
+  async deleteFollower(id) {
+    const follower = await models.RecruiterFollower.findByPk(id);
+
+    if (!follower) {
+      throw boom.notFound('Follower not found!');
+    }
+
+    await follower.destroy();
+  }
 }
 
 module.exports = RecruiterService;

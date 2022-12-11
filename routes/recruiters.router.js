@@ -2,6 +2,7 @@ const express = require('express');
 const RecruiterService = require('../services/recruiter.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { createRecruiterSchema, updateRecruiterSchema, getRecruiterSchema } = require('../schemas/recruiter.schema');
+const { createRecruiterFollowerSchema } = require('../schemas/recruiter-follower.schema');
 const passport = require('passport');
 const { checkRoles } = require('../middlewares/auth.handler');
 const router = express.Router();
@@ -73,6 +74,37 @@ router.delete('/:id',
     try {
       const { id } = req.params;
       await service.delete(id);
+      res.status(204).json();
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post('/followers',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('Employee', 'Recruiter'),
+  validatorHandler(createRecruiterFollowerSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newRecruiterFollower = await service.createFollower(body);
+
+      res.status(201).json(newRecruiterFollower);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete('/followers/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('Employee', 'Recruiter'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await service.deleteFollower(id);
+
       res.status(204).json();
     } catch (error) {
       next(error);

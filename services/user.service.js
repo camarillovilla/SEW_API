@@ -4,17 +4,17 @@ const { models } = require('./../libs/sequelize');
 class UsersService {
   constructor() {}
 
-  async createByGoogle(data) {
-    const user = await models.User.create(data);
+  // async createByGoogle(data) {
+  //   const user = await models.User.create(data);
 
-    delete user.dataValues.email;
-    delete user.dataValues.password;
-    delete user.dataValues.recoveryToken;
-    delete user.dataValues.rfc;
-    delete user.dataValues.createAt;
+  //   delete user.dataValues.email;
+  //   delete user.dataValues.password;
+  //   delete user.dataValues.recoveryToken;
+  //   delete user.dataValues.rfc;
+  //   delete user.dataValues.createAt;
 
-    return user;
-  }
+  //   return user;
+  // }
 
   async getAll() {
     const users = await models.User.findAll();
@@ -57,10 +57,28 @@ class UsersService {
     }
 
     if (!user) {
-      throw boom.notFound('User not found!');      
+      throw boom.notFound('User not found!');
     }
 
     delete user.dataValues.password;
+
+    return user;
+  }
+
+  async getUser(rfc) {
+    let user = await models.User.findOne({
+      where: { rfc }
+    });
+
+    if (!user) {
+      throw boom.notFound('User not found!');
+    }
+
+    if (user.role === 'Recruiter') {
+      user = await this.getOne(user.id, 'Recruiter');
+    } else  {
+      user = await this.getOne(user.id, 'Employee');
+    }
 
     return user;
   }

@@ -20,4 +20,19 @@ router.get('/',
   }
 );
 
+router.get('/user/:rfc',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const rfc = req.params.rfc;
+
+      const user = await serviceUser.getUser(rfc);
+
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;
