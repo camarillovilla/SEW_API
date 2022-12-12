@@ -1,120 +1,69 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
-// const EmployeeService = require('../services/employee.service');
-// const employeeService = new EmployeeService();
 
 class OfferService {
   constructor() { }
+
+  async getOneOffer(id){
+
+    const offer = await models.Offer.findOne({
+      where: { id },      
+    });
+
+    if (!offer) {
+      throw boom.notFound('Offer not found!');
+    }
+
+    return offer;
+  }
 
   async getRecruterOffers(recruiterId) {
     const offers = await models.Offer.findAll({
       where: { recruiterId },        
     });
-    // const offers = await models.Offer.findAll();
+    
+    return offers;
+  }
+
+  async getAllOffers() {
+    const offers = await models.Offer.findAll({
+      include: ['recruiter'] 
+    });
 
     return offers;
   }
 
-  async create(data) {
-    const employee = await employeeService.getOne(data.employeeId);
-
-    const employeeHasCV = await models.CV.findOne({
-      where: { employeeId: employee.id }
+  async getNumberOfRecruiterOffers(recruiterId) {
+    const offers = await models.Offer.findAll({
+      where: { recruiterId },        
     });
+        
+    return offers.length;
+  }
 
-    if (employeeHasCV) {
-      throw boom.conflict('Employee already has a CV!');
-    }
-
-    const newCV = await models.CV.create({
-      description: data.description,
-      employeeId: data.employeeId,
-      lenguages: data.lenguages,
-      workExperiences: data.workExperiences,
-      academicTrainings: data.academicTrainings,
-      certifications: data.certifications,
-      skills: data.skills
-    }, {
-      include: ['skills', 'workExperiences', 'academicTrainings', 'certifications', 'lenguages'],
+  async getOffersByCategory(category) {
+    const offers = await models.Offer.findAll({
+      where: { category },        
+      include: ['recruiter'] 
     });
-
-    return (this.convertToJSON(newCV));
+    
+    return offers;
   }
 
-  async getAll() {
-    const cvs = await models.CV.findAll({
-      include: [{
-        model: models.Employee,
-        as: 'employee',
-        attributes: ['id', 'fullName', 'phone', 'userId']
-      }, 'skills', 'workExperiences', 'academicTrainings', 'certifications', 'lenguages']
-    });
+  async updateOffer(id, changes) {
+    const offer = await this.getOneOffer(id);
+    const updatedOffer = await offer.update(changes);
 
-    let cvsJSON = [];
-
-    for (let cv of cvs) {
-      cvsJSON.push(this.convertToJSON(cv));
-    }
-
-    return cvsJSON;
+    return updatedOffer;
   }
 
-  async getOne(id) {
-    const cv = await models.CV.findOne({
-      where: { id },
-      include: [{
-        model: models.Employee,
-        as: 'employee',
-        attributes: ['id', 'fullName', 'phone', 'userId']
-      }, 'lenguages', 'workExperiences', 'academicTrainings', 'certifications', 'skills']
-    });
+  async createJobApplication(data) {
+   
+    
 
-    if (!cv) {
-      throw boom.notFound('CV not found!');
-    }
 
-    return cv;
-  }
-
-  async getOneByUser(userId) {
-    const cv = await models.CV.findOne({
-      where: {
-        '$employee.user.id$': userId
-      },
-      include: [
-        {
-          association: 'employee',
-          include: ['user']
-        },
-      ]
-    });
-
-    if (!cv) {
-      throw boom.notFound('CV not found!');
-    }
-
-    const cvAuxiliar = await this.getOne(cv.id);
-
-    return this.convertToJSON(cvAuxiliar);
-  }
-
-  async update(id, changes) {
-    const cv = await this.getOne(id);
-    const updatedCV = await cv.update(changes);
-
-    return updatedCV;
-  }
-
-  convertToJSON(cv) {
-    const cvJSON = JSON.parse(JSON.stringify(cv));
-    cvJSON.lenguages = cv.lenguages.map(object => object.lenguage);
-    cvJSON.workExperiences = cv.workExperiences.map(object => object.workExperience);
-    cvJSON.academicTrainings = cv.academicTrainings.map(object => object.academicTraining);
-    cvJSON.certifications = cv.certifications.map(object => object.certification);
-    cvJSON.skills = cv.skills.map(object => object.skill);
-
-    return cvJSON;
-  }
+  }  
+  
 }
 
 module.exports = OfferService;
