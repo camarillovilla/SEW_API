@@ -4,7 +4,19 @@ const { models } = require('../libs/sequelize');
 class JobApplicationService {
   constructor() { }
 
-  async getOneJobApplication(employeeId, offerId){
+  // async getOneJobApplication(employeeId, offerId){
+
+  //   const jobApplication = await models.JobApplication.findOne({
+  //     where: { 
+  //       employeeId: employeeId,
+  //       offerId: offerId
+  //     },      
+  //   });
+
+  //   return jobApplication;
+  // }
+
+  async getOneJobApplicationEmployee(employeeId, offerId){
 
     const jobApplication = await models.JobApplication.findOne({
       where: { 
@@ -56,8 +68,15 @@ class JobApplicationService {
   }  
 
   async deleteJobApplication(employeeId, offerId){
-    const jobApplication = await this.getOneJobApplication(employeeId, offerId);       
+    const jobApplication = await this.getOneJobApplicationEmployee(employeeId, offerId);       
     await jobApplication.destroy();         
+  }
+
+  async updateJobApplication(id, changes) {
+    const jobApplication = await this.getOneOffer(id);
+    const updatedOffer = await offer.update(changes);
+
+    return updatedOffer;
   }
 
 }

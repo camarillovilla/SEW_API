@@ -4,7 +4,7 @@ const employeeId = Joi.number().integer();
 const offerId = Joi.number().integer();
 const status = Joi.string().max(255);
 
-const getOneJobApplicationSchema = Joi.object({
+const getOneJobApplicationEmployeeSchema = Joi.object({
   employeeId: employeeId.required(),
   offerId: offerId.required()  
 });
@@ -23,5 +23,5 @@ const createJobApplicationSchema = Joi.object({
   offerId: offerId.required()  
 });
 
-module.exports = {getOneJobApplicationSchema, getOfferJobApplicationsSchema, getEmployeeJobApplicationsSchema, createJobApplicationSchema};
+module.exports = { getOneJobApplicationEmployeeSchema, getOfferJobApplicationsSchema, getEmployeeJobApplicationsSchema, createJobApplicationSchema};
 
