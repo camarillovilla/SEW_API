@@ -81,4 +81,17 @@ router.delete('/:id',
   }
 );
 
+router.post('/oneEmployeeUser',
+  validatorHandler(getEmployeeSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.body;
+      const employee = await service.getOneEmployeeUser(id);
+      res.status(200).json(employee);      
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;

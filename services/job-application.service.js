@@ -4,17 +4,20 @@ const { models } = require('../libs/sequelize');
 class JobApplicationService {
   constructor() { }
 
-  // async getOneJobApplication(employeeId, offerId){
+  async getOneJobApplication(id){
 
-  //   const jobApplication = await models.JobApplication.findOne({
-  //     where: { 
-  //       employeeId: employeeId,
-  //       offerId: offerId
-  //     },      
-  //   });
+    const jobApplication = await models.JobApplication.findOne({
+      where: { 
+        id: id
+      },      
+    });
 
-  //   return jobApplication;
-  // }
+    if (!jobApplication) {
+      throw boom.notFound('Job Application not found!');
+    }
+
+    return jobApplication;
+  }
 
   async getOneJobApplicationEmployee(employeeId, offerId){
 
@@ -23,7 +26,7 @@ class JobApplicationService {
         employeeId: employeeId,
         offerId: offerId
       },      
-    });
+    });    
 
     return jobApplication;
   }
@@ -32,7 +35,16 @@ class JobApplicationService {
 
     const jobApplications = await models.JobApplication.findAll({
       where: { offerId },        
-    });
+    });    
+    
+    return jobApplications;
+  }
+
+  async getOfferStatusJobApplications(offerId, status){
+
+    const jobApplications = await models.JobApplication.findAll({
+      where: { offerId: offerId, status: status },        
+    });    
     
     return jobApplications;
   }
@@ -68,13 +80,18 @@ class JobApplicationService {
   }  
 
   async deleteJobApplication(employeeId, offerId){
-    const jobApplication = await this.getOneJobApplicationEmployee(employeeId, offerId);       
+    const jobApplication = await this.getOneJobApplicationEmployee(employeeId, offerId);     
+    if (!jobApplication) {
+      throw boom.notFound('Job Application not found!');
+    }
+    
     await jobApplication.destroy();         
   }
 
   async updateJobApplication(id, changes) {
-    const jobApplication = await this.getOneOffer(id);
-    const updatedOffer = await offer.update(changes);
+    
+    const jobApplication = await this.getOneJobApplication(id);
+    const updatedOffer = await jobApplication.update(changes);
 
     return updatedOffer;
   }

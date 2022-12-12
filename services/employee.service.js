@@ -49,6 +49,22 @@ class EmployeeService {
     return employee;
   }
 
+  async getOneEmployeeUser(id) {
+    const employee = await models.Employee.findByPk(id, {
+      include: [{
+        model: models.User,
+        as: 'user',
+        attributes: ['id', 'rfc', 'role']
+      }]
+    });
+
+    if (!employee) {
+      throw boom.notFound('Employee not found!');
+    }  
+
+    return employee;
+  }
+
   async update(userId, id, changes) {
     const user = await models.User.findByPk(userId);
     const employee = await this.getOne(id);
