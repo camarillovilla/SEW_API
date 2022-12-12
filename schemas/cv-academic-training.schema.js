@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const academicTraining = Joi.string();
+const academicTraining = Joi.string().max(250);
 
 const createCVAcademicTraining = Joi.object({
   cvId: id.required(),

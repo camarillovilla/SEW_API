@@ -16,7 +16,8 @@ const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${
 
 const sequelize = new Sequelize(URI, {
   dialtec: 'postgres',
-  logging: message => console.log(message),
+  // logging: message => console.log(message),
+  logging: false,
 });
 
 // recibe la conexión

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const lenguage = Joi.string();
+const lenguage = Joi.string().max(100);
 
 const createCVLenguage = Joi.object({
   cvId: id.required(),
@@ -9,7 +9,7 @@ const createCVLenguage = Joi.object({
 });
 
 const updateCVLenguage = Joi.object({
-  lenguage
+  lenguage: lenguage
 });
 
 const getCVLenguage = Joi.object({

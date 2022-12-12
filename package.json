@@ -10,7 +10,9 @@
     "migrations:generate": "sequelize-cli migration:generate --name",
     "migrations:run": "sequelize-cli db:migrate",
     "migrations:reverse": "sequelize-cli db:migrate:undo",
-    "migrations:delete": "sequelize-cli db:migrate:undo:all"
+    "migrations:delete": "sequelize-cli db:migrate:undo:all",
+    "test": "jest --verbose --silent --detectOpenHandles",
+    "test:watch": "jest --verbose --silent --detectOpenHandles --watch"
   },
   "keywords": [],
   "author": "",
@@ -19,9 +21,11 @@
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.3.1",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "supertest": "^6.3.3"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",

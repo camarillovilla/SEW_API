@@ -1,22 +1,22 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const description = Joi.string();
+const description = Joi.string().max(250);
 const employeeId = Joi.number().integer();
 const lenguage = Joi.object().keys({
-  lenguage: Joi.string().required()
+  lenguage: Joi.string().required().max(100),
 });
 const workExperience = Joi.object().keys({
-  workExperience: Joi.string().required()
+  workExperience: Joi.string().required().max(250),
 });
 const academicTraining = Joi.object().keys({
-  academicTraining: Joi.string().required()
+  academicTraining: Joi.string().required().max(250),
 });
 const certification = Joi.object().keys({
-  certification: Joi.string().required()
+  certification: Joi.string().required().max(250),
 });
 const skill = Joi.object().keys({
-  skill: Joi.string().required()
+  skill: Joi.string().required().max(250),
 });
 
 const createCVSchema = Joi.object({

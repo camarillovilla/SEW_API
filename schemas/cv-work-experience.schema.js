@@ -1,16 +1,12 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const workExperience = Joi.string();
+const workExperience = Joi.string().max(250);
 
 const createCVWorkExperience = Joi.object({
   cvId: id.required(),
   workExperience: workExperience.required()
 });
-
-// const updatedCVWorkExperience = Joi.object({
-//   workExperience: workExperience
-// });
 
 const updateCVWorkExperience = Joi.object({
   workExperience: workExperience

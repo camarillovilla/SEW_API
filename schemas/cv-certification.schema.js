@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const certification = Joi.string();
+const certification = Joi.string().max(250);
 
 const createCVCertification = Joi.object({
   cvId: id.required(),

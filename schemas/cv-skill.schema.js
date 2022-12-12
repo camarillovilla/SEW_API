@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer().positive();
-const skill = Joi.string();
+const skill = Joi.string().max(250);
 
 const createCVSkill = Joi.object({
   cvId: id.required(),
