@@ -33,7 +33,6 @@ describe('POST /employees', () => {
       .post('/api/v1/employees')
       .send({});
 
-    expect(response.error)
     expect(response.statusCode).toBe(400);
   });
 
