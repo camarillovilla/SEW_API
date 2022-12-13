@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
+const OfferService = require('../services/offer.service');
+const offerService = new OfferService();
 
 class JobApplicationService {
   constructor() { }
@@ -57,18 +59,20 @@ class JobApplicationService {
     return jobApplications;
   }
   
-  async createJobApplication(status, employeeId, offerId){    
+  async createJobApplication(status, employeeId, offerId){  
+    
+    const offer = await offerService.getOneOffer(offerId);   
 
     const application = await models.JobApplication.findOne({
       where: { 
         employeeId: employeeId,
-        offerId: offerId
+        offerId: offer.id
       },      
     });
 
     if (application) {
       throw boom.notFound('That Job Application Already Exists!');
-    }
+    }    
 
     const newJobApplication = await models.JobApplication.create({
       status: status,

@@ -57,11 +57,9 @@ class OfferService {
     return updatedOffer;
   }
 
-  async createJobApplication(data) {
-   
-    
-
-
+  async createOffer(offerData) {       
+    const newOffer = await models.Offer.create(offerData);
+    return newOffer;
   }  
   
 }
