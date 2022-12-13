@@ -95,5 +95,18 @@ router.patch('/',
   }
 );
 
+router.delete('/deleteOffer',
+  validatorHandler(getOneOfferSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.body;         
+      await service.deleteOffer(id);
+      res.status(204).json();
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 
 module.exports = router;

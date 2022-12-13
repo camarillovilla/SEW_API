@@ -61,6 +61,11 @@ class OfferService {
     const newOffer = await models.Offer.create(offerData);
     return newOffer;
   }  
+
+  async deleteOffer(id){
+    const offer = await this.getOneOffer(id);        
+    await offer.destroy();         
+  }
   
 }
 
