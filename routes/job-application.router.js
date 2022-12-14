@@ -3,8 +3,12 @@ const JobApplicationService = require('../services/job-application.service');
 const validatorHandler = require('../middlewares/validator.handler');
 // const { checkRoles } = require('../middlewares/auth.handler');
 const { getOneJobApplication, getOneJobApplicationEmployeeSchema, getOfferJobApplicationsSchema, getOfferStatusJobApplicationsSchema, getEmployeeJobApplicationsSchema, createJobApplicationSchema, updateJobApplicationSchema } = require('../schemas/job-application.schema');
+const { getEmployeeSchema } = require('../schemas/employee.schema');
 const router = express.Router();
 const service = new JobApplicationService();
+
+const EmployeeService = require('../services/employee.service');
+const serviceEmployee = new EmployeeService();
 
 router.post('/oneJobApplication',
   validatorHandler(getOneJobApplication, 'body'),
@@ -109,5 +113,17 @@ router.patch('/',
   }
 );
 
+router.post('/getOneEmployee',  
+  validatorHandler(getEmployeeSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.body;
+      const employees = await serviceEmployee.getOneEmployee(id); 
+      res.status(200).json(employees)
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;

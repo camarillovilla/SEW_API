@@ -96,6 +96,19 @@ class EmployeeService {
     const user = await models.User.findByPk(employee.user.id);
     await user.destroy();
   }
+
+  async getOneEmployee(id) {
+    const employee = await models.Employee.findByPk(id, {
+      include: ['offers']
+    });    
+
+    if (!employee) {
+      throw boom.notFound('Employee not found!');
+    }  
+    
+    return employee;
+  }
+
 }
 
 module.exports = EmployeeService;
