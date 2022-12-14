@@ -53,5 +53,9 @@ const createOfferSchema = Joi.object({
   offerData: offerData.required()  
 });
 
-module.exports = {getOfferSchema, getOffersByCategorySchema, getOneOfferSchema, updateOfferSchema, createOfferSchema};
+const getOffersTitleSchema = Joi.object({
+  title: title.required()
+});
+
+module.exports = {getOfferSchema, getOffersByCategorySchema, getOneOfferSchema, updateOfferSchema, createOfferSchema, getOffersTitleSchema};
 

@@ -3,7 +3,7 @@ const OfferService = require('../services/offer.service')
 const validatorHandler = require('../middlewares/validator.handler');
 // const { checkRoles } = require('../middlewares/auth.handler');
 //const { createCVSchema, updateCVSchema, getCVSchema } = require('../schemas/cv.schema');
-const { getOfferSchema, getOffersByCategorySchema, getOneOfferSchema, updateOfferSchema, createOfferSchema} = require('../schemas/offer.schema');
+const { getOfferSchema, getOffersByCategorySchema, getOneOfferSchema, updateOfferSchema, createOfferSchema, getOffersTitleSchema} = require('../schemas/offer.schema');
 const router = express.Router();
 const service = new OfferService();
 
@@ -108,5 +108,17 @@ router.delete('/deleteOffer',
   }
 );
 
+router.post('/getOffersTitle',
+  validatorHandler(getOffersTitleSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { title } = req.body;
+      const offer = await service.getOffersTitle(title);
+      res.status(200).json(offer);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;

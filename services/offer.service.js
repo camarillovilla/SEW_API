@@ -25,6 +25,15 @@ class OfferService {
     return offers;
   }
 
+  async getOffersTitle(title) {
+    const offers = await models.Offer.findAll({
+      where: { title },        
+      include: ['recruiter']        
+    });
+    
+    return offers;
+  }
+
   async getAllOffers() {
     const offers = await models.Offer.findAll({
       include: ['recruiter'] 
