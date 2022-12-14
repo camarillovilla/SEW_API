@@ -1,7 +1,8 @@
 const express = require('express');
 const JobApplicationService = require('../services/job-application.service');
 const validatorHandler = require('../middlewares/validator.handler');
-// const { checkRoles } = require('../middlewares/auth.handler');
+const { checkRoles } = require('../middlewares/auth.handler');
+const passport = require('passport');
 const { getOneJobApplication, getOneJobApplicationEmployeeSchema, getOfferJobApplicationsSchema, getOfferStatusJobApplicationsSchema, getEmployeeJobApplicationsSchema, createJobApplicationSchema, updateJobApplicationSchema } = require('../schemas/job-application.schema');
 const { getEmployeeSchema } = require('../schemas/employee.schema');
 const router = express.Router();
@@ -11,6 +12,7 @@ const EmployeeService = require('../services/employee.service');
 const serviceEmployee = new EmployeeService();
 
 router.post('/oneJobApplication',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOneJobApplication, 'body'),
   async (req, res, next) => {
     try {
@@ -24,6 +26,7 @@ router.post('/oneJobApplication',
 );
 
 router.post('/oneJobApplicationEmployee',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOneJobApplicationEmployeeSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -37,6 +40,7 @@ router.post('/oneJobApplicationEmployee',
 );
 
 router.post('/offerJobApplications',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOfferJobApplicationsSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -50,6 +54,7 @@ router.post('/offerJobApplications',
 );
 
 router.post('/offerStatusJobApplications',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOfferStatusJobApplicationsSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -63,6 +68,7 @@ router.post('/offerStatusJobApplications',
 );
 
 router.post('/employeeJobApplications',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getEmployeeJobApplicationsSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -76,6 +82,7 @@ router.post('/employeeJobApplications',
 );
 
 router.post('/createJobApplication',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createJobApplicationSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -88,11 +95,24 @@ router.post('/createJobApplication',
   }
 );
 
-router.delete('/deleteJobApplication',
-  validatorHandler(getOneJobApplicationEmployeeSchema, 'body'),
+// router.delete('/deleteJobApplication',  
+//   validatorHandler(getOneJobApplicationEmployeeSchema, 'body'),
+//   async (req, res, next) => {
+//     try {
+//       const { employeeId, offerId } = req.body;         
+//       await service.deleteJobApplication(employeeId, offerId);
+//       res.status(204).json();
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
+
+router.delete('/deleteJobApplication/:employeeId&:offerId',  
+  validatorHandler(getOneJobApplicationEmployeeSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { employeeId, offerId } = req.body;         
+      const { employeeId, offerId } = req.params;         
       await service.deleteJobApplication(employeeId, offerId);
       res.status(204).json();
     } catch (error) {
@@ -102,6 +122,7 @@ router.delete('/deleteJobApplication',
 );
 
 router.patch('/',   
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(updateJobApplicationSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -114,6 +135,7 @@ router.patch('/',
 );
 
 router.post('/getOneEmployee',  
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getEmployeeSchema, 'body'),
   async (req, res, next) => {
     try {

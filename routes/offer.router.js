@@ -1,13 +1,14 @@
 const express = require('express');
 const OfferService = require('../services/offer.service')
 const validatorHandler = require('../middlewares/validator.handler');
-// const { checkRoles } = require('../middlewares/auth.handler');
-//const { createCVSchema, updateCVSchema, getCVSchema } = require('../schemas/cv.schema');
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 const { getOfferSchema, getOffersByCategorySchema, getOneOfferSchema, updateOfferSchema, createOfferSchema, getOffersTitleSchema} = require('../schemas/offer.schema');
 const router = express.Router();
 const service = new OfferService();
 
 router.post('/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOfferSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -21,6 +22,7 @@ router.post('/',
 );
 
 router.post('/offersNumber',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOfferSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -34,6 +36,7 @@ router.post('/offersNumber',
 );
 
 router.post('/offersCategory',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOffersByCategorySchema, 'body'),
   async (req, res, next) => {
     try {
@@ -47,6 +50,7 @@ router.post('/offersCategory',
 );
 
 router.post('/oneOffer',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOneOfferSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -60,6 +64,8 @@ router.post('/oneOffer',
 );
 
 router.post('/createOffer',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('Recruiter'),
   validatorHandler(createOfferSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -73,6 +79,7 @@ router.post('/createOffer',
 );
 
 router.get('/',
+  passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
       const offers = await service.getAllOffers();
@@ -84,6 +91,8 @@ router.get('/',
 );
 
 router.patch('/',   
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('Recruiter'),
   validatorHandler(updateOfferSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -95,11 +104,24 @@ router.patch('/',
   }
 );
 
-router.delete('/deleteOffer',
-  validatorHandler(getOneOfferSchema, 'body'),
+// router.delete('/deleteOffer',    
+//   validatorHandler(getOneOfferSchema, 'body'),
+//   async (req, res, next) => {
+//     try {
+//       const { id } = req.body;         
+//       await service.deleteOffer(id);
+//       res.status(204).json();
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
+
+router.delete('/deleteOffer/:id',    
+  validatorHandler(getOneOfferSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { id } = req.body;         
+      const { id } = req.params;         
       await service.deleteOffer(id);
       res.status(204).json();
     } catch (error) {
@@ -109,6 +131,7 @@ router.delete('/deleteOffer',
 );
 
 router.post('/getOffersTitle',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getOffersTitleSchema, 'body'),
   async (req, res, next) => {
     try {
