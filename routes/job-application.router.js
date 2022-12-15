@@ -95,19 +95,6 @@ router.post('/createJobApplication',
   }
 );
 
-// router.delete('/deleteJobApplication',  
-//   validatorHandler(getOneJobApplicationEmployeeSchema, 'body'),
-//   async (req, res, next) => {
-//     try {
-//       const { employeeId, offerId } = req.body;         
-//       await service.deleteJobApplication(employeeId, offerId);
-//       res.status(204).json();
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
-
 router.delete('/deleteJobApplication/:employeeId&:offerId',  
   validatorHandler(getOneJobApplicationEmployeeSchema, 'params'),
   async (req, res, next) => {
