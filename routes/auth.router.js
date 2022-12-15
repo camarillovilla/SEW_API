@@ -26,7 +26,7 @@ router.get('/google/callback',
       const user = req.user;
 
       if (!user) {
-        res.status(200).redirect('http://localhost:8080/login');
+        res.status(200).redirect('https://sew.onrender.com/login');
       }
 
       const accessToken = service.signToken(user).token;
@@ -36,7 +36,7 @@ router.get('/google/callback',
         secure: false
       });
 
-      res.status(200).redirect('http://localhost:8080/profile');
+      res.status(200).redirect('https://sew.onrender.com/profile');
     } catch (error) {
       next(error);
     }
@@ -87,7 +87,7 @@ router.post('/verify-token',
       if (isVerifyToken) {
         res.sendStatus(200);
       } else {
-        res.status(204).redirect('http://localhost:8080/login');
+        res.status(204).redirect('https://sew.onrender.com/login');
       }
     } catch (error) {
       next(error);

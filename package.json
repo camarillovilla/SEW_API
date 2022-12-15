@@ -7,7 +7,6 @@
     "dev": "nodemon  index.js",
     "start": "node index.js",
     "lint": "eslint",
-    "deploy": "install && npm run sequelize-cli migration:generate --name && npm run sequelize-cli db:migrate",
     "migrations:generate": "sequelize-cli migration:generate --name",
     "migrations:run": "sequelize-cli db:migrate",
     "migrations:reverse": "sequelize-cli db:migrate:undo",
