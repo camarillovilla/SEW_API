@@ -71,7 +71,7 @@ class JobApplicationService {
     });
 
     if (application) {
-      throw boom.notFound('That Job Application Already Exists!');
+      throw boom.conflict('That Job Application Already Exists!');
     }    
 
     const newJobApplication = await models.JobApplication.create({

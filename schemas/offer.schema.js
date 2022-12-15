@@ -21,15 +21,15 @@ const changes = Joi.object({
   reportsNumber: reportsNumber
 });
 const offerData = Joi.object({
-  title: title,
-  workday: workday,
-  description: description,
-  experience: experience,
-  category: category,
-  status: status,
-  score: score,
-  reportsNumber: reportsNumber,
-  recruiterId: recruiterId
+  title: title.required(),
+  workday: workday.required(),
+  description: description.required(),
+  experience: experience.required(),
+  category: category.required(),
+  status: status.required(),
+  score: score.required(),
+  reportsNumber: reportsNumber.required(),
+  recruiterId: recruiterId.required()
 }); 
 
 const getOfferSchema = Joi.object({
